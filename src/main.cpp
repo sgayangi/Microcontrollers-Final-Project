@@ -15,6 +15,7 @@
 #define SAMPLE_NUMBER 10
 #define SERVER_ADDRESS "Server address to connect to"
 
+int last_value = 0;
 float temperatureValues[SAMPLE_NUMBER];
 float pressureValues[SAMPLE_NUMBER];
 float lightValues[SAMPLE_NUMBER];
@@ -32,7 +33,13 @@ void setup() {
 }
 
 void loop() {
-  if (__TIME__ - initialTime < 15*60){
+  if (__TIME__ - initialTime < 15 * 60 || last_value == SAMPLE_NUMBER)
+  {
+    temperatureValues[last_value] = readTemperature();
+    pressureValues[last_value] = readPressure();
+    lightValues[last_value] = readLightLevel();
+    humidityValues[last_value] = readHumidity();
+    last_value++;
     return;
   }
   else{
